@@ -1,0 +1,26 @@
+# ==============================================================================
+# CYBERDECK OS - 3.5" (480x320) SPI TFT Display & XPT2046 Touch Overlay
+# Place this in /boot/firmware/config.txt or /boot/config.txt
+# ==============================================================================
+
+# Enable Hardware SPI & I2C
+dtparam=spi=on
+dtparam=i2c_arm=on
+enable_uart=1
+
+# ILI9486 Display Controller (piscreen overlay)
+dtoverlay=piscreen,speed=16000000,rotate=90
+
+# XPT2046 / ADS7846 Touchscreen Controller
+dtoverlay=ads7846,cs=1,penirq=25,penirq_pull=2,speed=50000,keep_vref_on=0,swapxy=1,pmax=255,xohms=150,xmin=200,xmax=3900,ymin=150,ymax=4000
+
+# Framebuffer & HDMI resolution
+hdmi_force_hotplug=1
+hdmi_group=2
+hdmi_mode=87
+hdmi_cvt 480 320 60 6 0 0 0
+framebuffer_width=480
+framebuffer_height=320
+
+# GPU memory split for Raspberry Pi 3
+gpu_mem=64

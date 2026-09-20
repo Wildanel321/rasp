@@ -1,0 +1,24 @@
+[Unit]
+Description=CyberDeck OS - ESP32 Companion Serial Bridge Daemon
+After=network.target systemd-udevd.service
+Wants=systemd-udevd.service
+
+[Service]
+Type=simple
+User=deck
+Group=dialout
+WorkingDirectory=/opt/cyberdeck
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /opt/cyberdeck/tools/esp32/companion_bridge.py --daemon
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cyberdeck-esp32
+
+# Resource constraints
+CPUWeight=50
+MemoryMax=60M
+
+[Install]
+WantedBy=multi-user.target
