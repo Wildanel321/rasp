@@ -22,7 +22,7 @@ class MenuScreen:
         items = [
             ("TERMINAL", "terminal", "1", COLOR_PRIMARY),
             ("AUDIT / LAB", "audit", "2", COLOR_RED),
-            ("NETWORK", "network", "3", COLOR_CYAN),
+            ("WI-FI & HOTSPOT", "wifi", "3", COLOR_CYAN),
             ("SYSTEM", "system", "4", COLOR_CYAN),
             ("ESP32", "esp32", "5", COLOR_AMBER),
             ("GPIO", "gpio", "6", COLOR_AMBER),

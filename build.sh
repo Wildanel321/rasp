@@ -99,14 +99,32 @@ else
     log_info "Found existing pi-gen directory at ${PIGEN_DIR}."
 fi
 
+# Configure work directory on native Linux ext4 filesystem (essential for WSL/DrvFs mounts)
+if [[ "${SCRIPT_DIR}" =~ ^/mnt/ ]] || [[ -d "/var/tmp" ]]; then
+    PIGEN_WORK_DIR="${PIGEN_WORK_DIR:-/var/tmp/pi-gen-work/${IMG_NAME}}"
+else
+    PIGEN_WORK_DIR="${PIGEN_WORK_DIR:-${PIGEN_DIR}/work/${IMG_NAME}}"
+fi
+mkdir -p "${PIGEN_WORK_DIR}"
+
 if [[ ${CLEAN_FIRST} -eq 1 ]]; then
     log_info "Cleaning previous build work directories..."
-    rm -rf "${PIGEN_DIR}/work"
-    rm -rf "${DEPLOY_DIR}"
+    rm -rf "${PIGEN_DIR}/work" "${PIGEN_WORK_DIR}" "${DEPLOY_DIR}"
     log_ok "Clean completed."
 fi
 
 mkdir -p "${DEPLOY_DIR}"
+
+# Ensure pi-gen repository branch matches base distro
+if [[ -d "${PIGEN_DIR}/.git" ]]; then
+    cd "${PIGEN_DIR}"
+    if git tag -l | grep -q "${BASE_DISTRO}-${TARGET_ARCH}"; then
+        LATEST_TAG=$(git tag -l "*${BASE_DISTRO}-${TARGET_ARCH}*" | tail -1)
+        log_info "Checking out matching pi-gen release tag: ${LATEST_TAG}..."
+        git checkout -q "${LATEST_TAG}" || true
+    fi
+    cd "${SCRIPT_DIR}"
+fi
 
 log_info "Injecting custom CyberDeck stage into pi-gen..."
 TARGET_STAGE_DIR="${PIGEN_DIR}/stage-cyberdeck"
@@ -135,6 +153,7 @@ cat > "${PIGEN_CONFIG_FILE}" <<EOF
 IMG_NAME="${IMG_NAME}"
 RELEASE="${BASE_DISTRO}"
 DEPLOY_DIR="${DEPLOY_DIR}"
+WORK_DIR="${PIGEN_WORK_DIR}"
 TARGET_ARCH="${TARGET_ARCH}"
 LOCALE_DEFAULT="${LOCALE_DEFAULT}"
 TIMEZONE_DEFAULT="${TIMEZONE_DEFAULT}"

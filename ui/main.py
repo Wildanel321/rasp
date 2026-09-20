@@ -29,6 +29,7 @@ from ui.screens.esp32_screen import ESP32Screen
 from ui.screens.gpio_screen import GPIOScreen
 from ui.screens.tools_screen import ToolsScreen
 from ui.screens.audit_screen import AuditScreen
+from ui.screens.wifi_screen import WiFiScreen
 from ui.screens.settings import SettingsScreen
 from ui.screens.about import AboutScreen
 
@@ -72,6 +73,7 @@ class CyberDeckApp:
             "menu": MenuScreen(on_navigate=self.navigate_to),
             "terminal": TerminalScreen(on_navigate=self.navigate_to),
             "audit": AuditScreen(on_navigate=self.navigate_to),
+            "wifi": WiFiScreen(on_navigate=self.navigate_to),
             "system": SystemScreen(self.sys_monitor, on_navigate=self.navigate_to),
             "network": NetworkScreen(on_navigate=self.navigate_to),
             "esp32": ESP32Screen(on_navigate=self.navigate_to),
