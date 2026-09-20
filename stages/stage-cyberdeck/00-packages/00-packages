@@ -17,7 +17,7 @@ libsqlite3-dev
 # Framebuffer & Touch Input Utilities
 fbset
 evtest
-tslib
+libts0
 libts-bin
 xinput-calibrator
 xserver-xorg
@@ -58,7 +58,6 @@ netcat-openbsd
 arp-scan
 ettercap-text-only
 aircrack-ng
-kismet
 reaver
 pixiewps
 wavemon

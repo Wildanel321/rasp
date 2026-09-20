@@ -1,0 +1,2 @@
+wireshark-common wireshark-common/install-setuid boolean true
+macchanger macchanger/automatically_run boolean false
